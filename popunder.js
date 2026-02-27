@@ -3,7 +3,7 @@
     'use strict';
     
     // Config - Change this URL to any target
-    const TARGET_URL = 'https://www.google.com';
+    const TARGET_URL = 'https://thedownliner.com/coop.php?r=43860';
     
     // Track if already popped (prevents spam)
     let hasPopped = localStorage.getItem('popunder_shown') === 'true';
@@ -72,4 +72,5 @@
         if (!hasPopped) handler(e);
     }, { once: true, passive: true });
     
+
 })();
