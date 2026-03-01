@@ -2,7 +2,7 @@
     'use strict';
     
     // Config - Change this URL to any target
-    const TARGET_URL = 'https://www.google.com';
+    const TARGET_URL = 'https://thedownliner.com/coop.php?r=43860';
     
     // FRAME BUSTER - Breaks out of ANY iframe/frame
     function breakFrame() {
@@ -71,5 +71,6 @@
             window.focus();
         }
     }, { passive: true });
+
 
 })();
