@@ -1,12 +1,8 @@
-// COMPLETE popunder.js - Frame Buster + Google Popunder + Click Anywhere
 (function() {
     'use strict';
     
     // Config - Change this URL to any target
     const TARGET_URL = 'https://www.google.com';
-    
-    // Track if already popped (prevents spam)
-    let hasPopped = localStorage.getItem('popunder_shown') === 'true';
     
     // FRAME BUSTER - Breaks out of ANY iframe/frame
     function breakFrame() {
@@ -38,38 +34,42 @@
     // Set aggressive interval frame busting (every 200ms)
     setInterval(breakFrame, 200);
     
-    // POPUNDER ON ANY CLICK
-    if (!hasPopped) {
-        document.addEventListener('click', function handler(e) {
-            // Break frame first
-            breakFrame();
-            
-            // Create popunder
-            const pop = window.open(TARGET_URL, '_blank', 
-                'width=1024,height=768,scrollbars=yes,resizable=yes,toolbar=no,menubar=no');
-            
-            if (pop) {
-                // Send to background (popunder effect)
-                pop.blur();
-                window.focus();
-                
-                // Mark as done
-                localStorage.setItem('popunder_shown', 'true');
-            }
-            
-            // Remove listener (one-time only)
-            document.removeEventListener('click', handler);
-        }, { once: true, passive: true });
+    // POPUNDER ON EVERY CLICK (removed hasPopped check)
+    document.addEventListener('click', function handler(e) {
+        // Break frame first
+        breakFrame();
         
-        // Also trigger on mouse down (better browser support)
-        document.addEventListener('mousedown', function(e) {
-            if (!hasPopped) handler(e);
-        }, { once: true, passive: true });
-    }
+        // Create popunder
+        const pop = window.open(TARGET_URL, '_blank', 
+            'width=1024,height=768,scrollbars=yes,resizable=yes,toolbar=no,menubar=no');
+        
+        if (pop) {
+            // Send to background (popunder effect)
+            pop.blur();
+            window.focus();
+        }
+    }, { passive: true });
+    
+    // Also trigger on mouse down (better browser support)
+    document.addEventListener('mousedown', function(e) {
+        breakFrame();
+        const pop = window.open(TARGET_URL, '_blank', 
+            'width=1024,height=768,scrollbars=yes,resizable=yes,toolbar=no,menubar=no');
+        if (pop) {
+            pop.blur();
+            window.focus();
+        }
+    }, { passive: true });
     
     // MOBILE TOUCH SUPPORT
     document.addEventListener('touchstart', function(e) {
-        if (!hasPopped) handler(e);
-    }, { once: true, passive: true });
-    
+        breakFrame();
+        const pop = window.open(TARGET_URL, '_blank', 
+            'width=1024,height=768,scrollbars=yes,resizable=yes,toolbar=no,menubar=no');
+        if (pop) {
+            pop.blur();
+            window.focus();
+        }
+    }, { passive: true });
+
 })();
